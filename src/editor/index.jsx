@@ -11,7 +11,7 @@ import InputFile from '../components/InputFile'
 import Icon from '../components/Icon'
 import ToolBar from '../components/ToolBar'
 import _config from '../config.js'
-
+import ReactMarkdown from 'react-markdown'
 import './index.less'
 
 export class HtmlRender extends Component {
@@ -495,6 +495,7 @@ export class MdEditor extends Component {
         <NavigationBar
           left={
             <div className="button-wrap">
+              {/*
               <span className="button" title="Header"
                 onMouseEnter={() => this.showDropList('header', true)}
                 onMouseLeave={() => this.showDropList('header', false)}
@@ -513,17 +514,14 @@ export class MdEditor extends Component {
                     )
                   }}
                 />
-              </span>
+              </span>*/}
               <span className="button" title="Bold" onClick={() => this.handleDecorate('bold')}><Icon type="icon-bold" /></span>
               <span className="button" title="Italic" onClick={() => this.handleDecorate('italic')}><Icon type="icon-italic" /></span>
-              <span className="button" title="Underline" onClick={() => this.handleDecorate('underline')}><Icon type="icon-underline" /></span>
               <span className="button" title="Strikethrough" onClick={() => this.handleDecorate('strikethrough')}><Icon type="icon-strikethrough" /></span>
               <span className="button" title="Unordered list" onClick={() => this.handleDecorate('unordered')}><Icon type="icon-list-ul" /></span>
               <span className="button" title="Ordered list" onClick={() => this.handleDecorate('order')}><Icon type="icon-list-ol" /></span>
               <span className="button" title="Quote" onClick={() => this.handleDecorate('quote')}><Icon type="icon-quote-left" /></span>
               <span className="button" title="Line break" onClick={() => this.handleDecorate('hr')}><Icon type="icon-window-minimize" /></span>
-              <span className="button" title="Inline code" onClick={() => this.handleDecorate('inlinecode')}><Icon type="icon-embed" /></span>
-              <span className="button" title="Block code" onClick={() => this.handleDecorate('code')}><Icon type="icon-embed2" /></span>
               <span className="button" title="Table"
                 onMouseEnter={() => this.showDropList('table', true)}
                 onMouseLeave={() => this.showDropList('table', false)}
@@ -543,16 +541,7 @@ export class MdEditor extends Component {
                   }}
                 />
               </span>
-              <span className="button" title="Image" onClick={this.handleImageUpload} style={{ position: 'relative' }}>
-                <Icon type="icon-photo" />
-                <InputFile accept={this.config.imageAccept || ""} ref={(input) => { this.inputFile = input }} onChange={(e) => {
-                  e.persist()
-                  const file = e.target.files[0]
-                  this.onImageChanged(file)
-                }} />
-              </span>
               <span className="button" title="Link" onClick={() => this.handleDecorate('link')}><Icon type="icon-link" /></span>
-
               <span className="button" title="Clear" onClick={this.handleEmpty}><Icon type="icon-trash" /></span>
               <span className="button" title="Undo" onClick={this.handleUndo}><Icon type="icon-reply" /></span>
               <span className="button" title="Redo" onClick={this.handleRedo}><Icon type="icon-share" /></span>
@@ -560,11 +549,11 @@ export class MdEditor extends Component {
           }
           right={
             <div className="button-wrap">
-              {view.fullScreen &&
+              {/* {view.fullScreen &&
                 <span className="button" title="Full screen" onClick={this.handleToggleFullScreen}>
                   {fullScreen ? <Icon type="icon-shrink" /> : <Icon type="icon-enlarge" />}
                 </span>
-              }
+              } */}
             </div>
           }
         />
@@ -582,7 +571,6 @@ export class MdEditor extends Component {
               <span className="button" title={view.html ? 'Hide preview' : 'Show preview'} onClick={this.handleMdPreview}>
                 {view.html ? <Icon type="icon-desktop" /> : <Icon type="icon-columns" />}
               </span>
-              <span className="button" title={'Preview'} onClick={() => this.handleToggleView('md')}><Icon type="icon-refresh" /></span>
             </ToolBar>
             <textarea
               id="textarea"
@@ -612,26 +600,15 @@ export class MdEditor extends Component {
                   : <Icon type="icon-columns" />
                 }
               </span>
-              <span className="button" title={'Toggle'} onClick={() => this.handleToggleView('html')}><Icon type="icon-refresh" /></span>
-              <span className="button" title="Show HTML" onClick={this.handleToggleHtmlType}>
-                {htmlType === 'render' ? <Icon type="icon-embed" />
-                  : <Icon type="icon-eye" />
-                }
-              </span>
             </ToolBar>
-            {htmlType === 'render' ?
-              (<div className="html-wrap"
-                ref={node => this.nodeMdPreviewWraper = node}
-                onMouseOver={() => this.handleScrollEle('html')}
-                onScroll={this.handlePreviewScroll}>
-                <HtmlRender html={html} className={this.config.htmlClass} ref={node => this.nodeMdPreview = ReactDOM.findDOMNode(node)} />
-              </div>)
-              : (<div className={'html-code-wrap'}
-                ref={node => this.nodeMdPreviewWraper = ReactDOM.findDOMNode(node)}
-                onScroll={this.handlePreviewScroll}>
-                <HtmlCode html={html} className={this.config.htmlClass} ref={node => this.nodeMdPreview = ReactDOM.findDOMNode(node)} />
-              </div>)
-            }
+            <div className="html-wrap"
+              ref={node => this.nodeMdPreviewWraper = node}
+              onMouseOver={() => this.handleScrollEle('html')}
+              onScroll={this.handlePreviewScroll}>
+              <div className={this.config.htmlClass} ref={node => this.nodeMdPreview = node}>
+                <ReactMarkdown source={text} {...(this.props.reacrMarkdownProps || {})} />
+              </div>
+            </div>
           </section>
         )
       }
