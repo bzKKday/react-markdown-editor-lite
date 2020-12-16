@@ -9,7 +9,6 @@ import HeaderList from '../components/HeaderList'
 import TableList from '../components/TableList'
 import InputFile from '../components/InputFile'
 import Icon from '../components/Icon'
-import ToolBar from '../components/ToolBar'
 import _config from '../config.js'
 import ReactMarkdown from 'react-markdown'
 import './index.less'
@@ -564,14 +563,6 @@ export class MdEditor extends Component {
       if (view.md) {
         res.push(
           <section className={'sec-md'} key="md">
-            <ToolBar>
-              <span className="button" title={view.menu ? 'Hide menu' : 'Show menu'} onClick={this.handleToggleMenu}>
-                {view.menu ? <Icon type="icon-chevron-up" /> : <Icon type="icon-chevron-down" />}
-              </span>
-              <span className="button" title={view.html ? 'Hide preview' : 'Show preview'} onClick={this.handleMdPreview}>
-                {view.html ? <Icon type="icon-desktop" /> : <Icon type="icon-columns" />}
-              </span>
-            </ToolBar>
             <textarea
               id="textarea"
               name={this.props.name || "textarea"}
@@ -589,24 +580,12 @@ export class MdEditor extends Component {
       if (view.html) {
         res.push(
           <section className={'sec-html'} key="html">
-            <ToolBar style={{ right: '20px' }}>
-              <span className="button" title={view.menu ? 'hidden menu' : 'show menu'} onClick={this.handleToggleMenu}>
-                {view.menu ? <Icon type="icon-chevron-up" />
-                  : <Icon type="icon-chevron-down" />
-                }
-              </span>
-              <span className="button" title={view.md ? 'Hide editor' : 'Show editor'} onClick={this.handleHtmlPreview}>
-                {view.md ? <Icon type="icon-desktop" />
-                  : <Icon type="icon-columns" />
-                }
-              </span>
-            </ToolBar>
             <div className="html-wrap"
               ref={node => this.nodeMdPreviewWraper = node}
               onMouseOver={() => this.handleScrollEle('html')}
               onScroll={this.handlePreviewScroll}>
               <div className={this.config.htmlClass} ref={node => this.nodeMdPreview = node}>
-                <ReactMarkdown source={text} {...(this.props.reacrMarkdownProps || {})} />
+                <ReactMarkdown source={text} linkTarget='_blank' {...(this.props.reacrMarkdownProps || {})} />
               </div>
             </div>
           </section>
