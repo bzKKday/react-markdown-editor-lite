@@ -411,7 +411,7 @@ export class MdEditor extends Component {
   _setScrollValue() {
     // 设置值，方便 scrollBy 操作
     const { nodeMdText = {}, nodeMdPreview = {}, nodeMdPreviewWraper = {} } = this
-    this.scale = (nodeMdText.scrollHeight - nodeMdText.offsetHeight + 35) / (nodeMdPreview.offsetHeight - nodeMdPreviewWraper.offsetHeight + 35)
+    this.scale = (nodeMdText.scrollHeight - nodeMdText?.offsetHeight + 35) / (nodeMdPreview?.offsetHeight - nodeMdPreviewWraper?.offsetHeight + 35)
     this.hasContentChanged = false
   }
 
